@@ -24,7 +24,6 @@ if(formSearch){
   formSearch.addEventListener('submit', (e) => {
     e.preventDefault()
     const keyword = e.target.elements.keyword.value
-    console.log(keyword)
     if(keyword){
       url.searchParams.set("keyword", keyword)
     }
@@ -32,5 +31,18 @@ if(formSearch){
       url.searchParams.delete("keyword")
     }
     window.location.href = url.href
+  })
+}
+
+//Pagination 
+const buttonPagination = document.querySelectorAll("[button-pagination]")
+if(buttonPagination){
+  let url = new URL(window.location.href)
+  buttonPagination.forEach(button => {
+    button.addEventListener('click', () => {
+      const page = button.getAttribute("button-pagination")
+      url.searchParams.set("page", page)
+      window.location.href = url.href
+    })
   })
 }

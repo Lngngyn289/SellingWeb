@@ -1,5 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+
+
+
 block main
   h1 Product List 
 
@@ -10,21 +15,7 @@ block main
         .col-6
           +filter-status(filterStatus)
         .col-6 
-          form(id="form-search")
-            .input-group 
-              input(
-                type="text"
-                placeholder=""
-                name="keyword"
-                class="form-control"
-                value=keyword
-              )
-              .input-group-append
-                button(
-                  type="submit" 
-                  class="btn btn-success"
-                ) Search
-
+          +search(keyword)
 
   .card.mb-3 
     .card-header Product List
@@ -61,3 +52,5 @@ block main
                 td
                   button(class="btn btn-warning btn-sm") Edit
                   button(class="btn btn-danger btn-sm") Delete
+
+  +pagination(pagination)
