@@ -80,11 +80,19 @@ const checkboxMulti = document.querySelector("[checkbox-multi]")
   //Form Execute Multi 
   const formChangeMulti = document.querySelector("[form-change-multi]")
   if(formChangeMulti){
-    console.log(formChangeMulti)
     formChangeMulti.addEventListener("submit", (e) =>{
       e.preventDefault()
       const inputsChecked = document.querySelectorAll("input[name='id']:checked")
       const checkboxMulti = document.querySelector("[checkbox-multi]")
+
+      const typeChange = e.target.elements.type.value
+      if(typeChange == "Delete"){
+        const isConfirm = confirm("Are you sure to delete")
+        if(!isConfirm){
+          return
+        }
+      }
+
 
       if(inputsChecked.length > 0){
         let ids = []
@@ -102,5 +110,14 @@ const checkboxMulti = document.querySelector("[checkbox-multi]")
         alert("Pick at least 1 product")
       }
     })
+  }
+
+  //show alert
+  const showAlert = document.querySelector("[show-alert]")
+  if(showAlert){
+    const time = parseInt(showAlert.getAttribute("data-time"))
+    setTimeout(() => {
+      showAlert.classList.add("alert-hidden")
+    }, time)
   }
 

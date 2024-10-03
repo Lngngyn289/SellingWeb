@@ -5,7 +5,9 @@ const paginationHelper = require("../../helpers/pagination")
 
 module.exports.index = async (req,res)  => {
   const filterStatus = filterStatusHelper(req.query)
-  let find = {}
+  let find = {
+    deleted: false
+  }
   if(req.query.status){
     find.status = req.query.status
   }
@@ -48,6 +50,8 @@ module.exports.changeStatus =  async (req,res) => {
   await Product.updateOne({_id: id},{
     status: status
   })
+
+  req.flash("success", "Update status successfully")
   res.redirect('back')
 }
 
@@ -57,11 +61,31 @@ module.exports.changeMulti = async(req, res) => {
   switch(type){
     case "Active":
       await Product.updateMany({_id: {$in: ids}}, {status: "Active"})
+      req.flash("success", `Update status of ${ids.length} products success`)
       break
     case "Inactive":
       await Product.updateMany({_id: {$in: ids}}, {status: "Inactive"})
+      req.flash("success", `Update status of ${ids.length} products success`)
       break
+    case "Delete":
+      await Product.updateMany({_id: ids}, {
+        deleted: true,
+        deletedAt: new Date()
+      })
+      req.flash("success", `Delete ${ids.length} products`)
     default:
+      
   }
   res.redirect('back')
+}
+
+module.exports.deleteItem =  async (req,res) => {
+  const id = req.params.id
+  // await Product.deleteOne({_id: id})
+  await Product.updateOne({_id: id}, {deleted: true})
+  res.redirect('back')
+}
+
+module.exports.create = async (req,res) => {
+  res.render("admin/pages/products/create")
 }

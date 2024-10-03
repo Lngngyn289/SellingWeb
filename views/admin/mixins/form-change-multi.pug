@@ -1,21 +1,25 @@
 mixin form-change-multi(path)
 
-form(
-      action=path
-      method="POST"
-      form-change-multi
-    )
-      .d-flex.align-items-start
-        .form-group
-          select(name="type" class="form-control")
-            option(value="Active") Active
-            option(value="Inactive") Inactive
-        .form-group
-          input(
-            type="text"
-            name="ids"
-            value=""
-            class="form-control d-none"
-            
-          )
-        button(type="submit" class="btn btn-primary") Execute
+  form(
+        action=path
+        method="POST"
+        form-change-multi
+      )
+        .d-flex.align-items-start
+          .form-group
+            select(name="type" class="form-control")
+              option(disabled selected)  Choose action
+              option(value="Active") Active
+              option(value="Inactive") Inactive
+              option(value="Delete") Delete
+
+
+          .form-group
+            input(
+              type="text"
+              name="ids"
+              value=""
+              class="form-control d-none"
+              
+            )
+          button(type="submit" class="btn btn-primary") Execute

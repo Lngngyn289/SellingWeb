@@ -16,3 +16,21 @@ if(buttonsChangeStatus.length > 0){
     })
   })
 }
+
+//Delete item
+const buttonDelete = document.querySelectorAll("[button-delete]")
+if(buttonDelete){
+  const formDeleteItem = document.querySelector("#form-delete")
+  const path = formDeleteItem.getAttribute("data-path")
+  buttonDelete.forEach(button => {
+    button.addEventListener("click", () => {
+      const isConfirm = confirm("Are you sure to delete?")
+      if(isConfirm){
+        const id = button.getAttribute("data-id")
+        const action = `${path}/${id}?_method=DELETE`
+        formDeleteItem.action = action
+        formDeleteItem.submit()
+      }
+    })
+  })
+}
