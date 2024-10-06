@@ -2,6 +2,7 @@ const Product = require("../../model/productsModel")
 const filterStatusHelper = require("../../helpers/filterStatus")
 const searchHelper = require("../../helpers/search")
 const paginationHelper = require("../../helpers/pagination")
+const systemConfig = require("../../config/system") 
 
 module.exports.index = async (req,res)  => {
   const filterStatus = filterStatusHelper(req.query)
@@ -82,10 +83,24 @@ module.exports.changeMulti = async(req, res) => {
 module.exports.deleteItem =  async (req,res) => {
   const id = req.params.id
   // await Product.deleteOne({_id: id})
-  await Product.updateOne({_id: id}, {deleted: true})
+  await Product.updateOne({_id: id}, {
+    deleted: true,
+    deletedAt: new Date()
+  })
   res.redirect('back')
 }
 
 module.exports.create = async (req,res) => {
   res.render("admin/pages/products/create")
+}
+
+module.exports.createProduct = async (req,res) => {
+
+  req.body.price = parseInt(req.body.price)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.discountPercentage= parseInt(req.body.discountPercentage)
+  
+  const product = new Product(req.body)
+  await product.save();
+  res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
