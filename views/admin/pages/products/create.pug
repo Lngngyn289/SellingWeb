@@ -7,6 +7,7 @@ block main
     action=`${prefixAdmin}/products/create`
     id="form-create-product"
     method="POST"
+    enctype="multipart/form-data"
   )
     div(class="form-group")
       label(for="title") Title
@@ -82,7 +83,7 @@ block main
       )
     div(
       class="form-group" 
-      image-preview
+      upload-image
     )
       label(for="thumbnail") Image
       input(
@@ -91,17 +92,18 @@ block main
         id="thumbnail"
         name="thumbnail"
         accept="image/*"
-        image-preview-input
+        upload-image-input
       )
       img(
         src=""
-        image-upload-preview
+        upload-image-preview
         class="image-preview"
       )
       button(
+        type="button"
         class = "removeImg"
         remove-image
-      ) x
+      ) X
     div(class="form-group form-check form-check-inline")
       input(
         type="radio"

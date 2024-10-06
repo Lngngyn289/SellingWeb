@@ -19,7 +19,7 @@ if(buttonsChangeStatus.length > 0){
 
 //Delete item
 const buttonDelete = document.querySelectorAll("[button-delete]")
-if(buttonDelete){
+if(buttonDelete.length > 0) {
   const formDeleteItem = document.querySelector("#form-delete")
   const path = formDeleteItem.getAttribute("data-path")
   buttonDelete.forEach(button => {
