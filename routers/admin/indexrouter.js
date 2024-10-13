@@ -8,5 +8,4 @@ module.exports = (app) =>{
   
   app.use(PATH_ADMIN + '/dashboard', dashboardRouter);
   app.use(PATH_ADMIN + '/products', productsRouter);
-
 }
