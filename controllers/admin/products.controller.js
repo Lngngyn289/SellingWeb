@@ -141,5 +141,22 @@ module.exports.editPatch = async (req,res) => {
     req.flash("error", "Update fail")
   }
   res.redirect('back')
+}
 
+module.exports.detail = async (req,res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    }
+  
+    const product = await Product.findOne(find);
+    res.render("admin/pages/products/detail", {
+      pageTitle: product.title,
+      product: product
+    })
+  } catch(error){
+    req.flash("error", "Product doesnt exists")
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
 }

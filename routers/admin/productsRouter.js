@@ -26,7 +26,6 @@ router.post(
   validate.createProduct,
   controller.createProduct
 )
-
 router.get('/edit/:id', controller.edit)
 router.patch(
   '/edit/:id',
@@ -34,5 +33,6 @@ router.patch(
   validate.createProduct,
   controller.editPatch
 )
+router.get('/detail/:id', controller.detail)
 
 module.exports = router
