@@ -91,16 +91,55 @@ module.exports.deleteItem =  async (req,res) => {
 }
 
 module.exports.create = async (req,res) => {
-  res.render("admin/pages/products/create")
+  res.render("admin/pages/products/create",{
+    pageTitle: "Create Product"
+  })
 }
 
 module.exports.createProduct = async (req,res) => {
-  console.log(req.file)
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
-  req.body.thumbnail = `/uploads/${req.file.filename}`
+  if(req.file){
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
   const product = new Product(req.body)
   await product.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`)
+}
+
+module.exports.edit = async (req,res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
+    }
+  
+    const product = await Product.findOne(find);
+    res.render("admin/pages/products/edit", {
+      pageTitle: 'Edit Product',
+      product: product
+    })
+  } catch(error){
+    req.flash("error", "Product doesnt exists")
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
+  }
+}
+
+module.exports.editPatch = async (req,res) => {
+  // console.log(req.body)
+  req.body.price = parseInt(req.body.price)
+  req.body.stock = parseInt(req.body.stock)
+  req.body.discountPercentage= parseInt(req.body.discountPercentage)
+  if(req.file){
+    req.body.thumbnail = `/uploads/${req.file.filename}`
+  }
+  try{
+    await Product.updateOne({_id: req.params.id}, req.body)
+    req.flash("success", "Update success")
+  }catch(error){
+    req.flash("error", "Update fail")
+  }
+  res.redirect('back')
+
 }
