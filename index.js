@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const port = 3000
 require("dotenv").config()
+const port = process.env.PORT
 const mongoose = require('mongoose')
 const db = require('./config/db')
 const router = require('./routers/client/indexRouter')
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(methodOverride("_method"))
 app.set('views', './views')
 app.set('view engine', 'pug')
-app.use(express.static('public')) 
+app.use(express.static(`${__dirname}/public`)) 
 
 app.use(cookieParser('lngngyn'));
 app.use(session({ cookie: { maxAge: 60000 }}));
