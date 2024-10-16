@@ -1,5 +1,5 @@
-const productRouters = require('./productsRouter');
-const homeRouters = require('./homeRouter');
+const productRouter = require('./productsRouter');
+const homeRouter = require('./homeRouter');
 
 module.exports = (app) =>{
   
