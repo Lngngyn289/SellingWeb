@@ -31,8 +31,18 @@ module.exports.index = async (req,res)  => {
   if(req.query.page){
     objectPagination.currentPage = parseInt(req.query.page)
   }
+// End Pagination
+
+  let sort = {}
+  if(req.query.sortKey && req.query.sortValue){
+    sort[req.query.sortKey] = req.query.sortValue
+  }
+
   
-  const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip)
+  const products = await Product.find(find)
+    .limit(objectPagination.limitItems)
+    .skip(objectPagination.skip)
+    .sort(sort)
   res.render("admin/pages/products/index",{
     pageTitle: 'ProductsList',
     products: products,
@@ -128,9 +138,6 @@ module.exports.editPatch = async (req,res) => {
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
-  if(req.file){
-    req.body.thumbnail = `/uploads/${req.file.filename}`
-  }
   try{
     await Product.updateOne({_id: req.params.id}, req.body)
     req.flash("success", "Update success")

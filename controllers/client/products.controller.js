@@ -2,7 +2,8 @@ const Product = require('../../model/productsModel')
 
 module.exports.index = async (req, res) => {
   const products = await Product.find({
-    
+    status: "Active",
+    deleted: false
   });
   
   products.forEach(product => {
