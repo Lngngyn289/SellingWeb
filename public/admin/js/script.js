@@ -171,7 +171,6 @@ const checkboxMulti = document.querySelector("[checkbox-multi]")
       const optionSelected = sortSelect.querySelector(`option[value='${stringSort}']`)
       optionSelected.selected = true
     }
-    
   }
 
 
