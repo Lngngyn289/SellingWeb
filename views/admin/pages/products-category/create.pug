@@ -1,8 +1,9 @@
 extends ../../layouts/default
 include ../../mixins/alert
+include ../../mixins/select-tree
 
 block main
-  h1(class="mb-4") Thêm mới danh mục sản phẩm
+  h1(class="mb-4") Create products category
     +alert-error(3000)
   form(
     action=`${prefixAdmin}/products-category/create`
@@ -11,7 +12,7 @@ block main
     enctype="multipart/form-data"
   )
     div(class="form-group")
-      label(for="title") Tiêu đề
+      label(for="title") Title
       input(
         type="text"
         class="form-control"
@@ -22,15 +23,25 @@ block main
 
     div(class="form-group")
       label(for="parent_id") Parent Category
-      input(
-        type="text"
-        class="form-control"
-        id="parent_id"
+      //- input(
+      //-   type="text"
+      //-   class="form-control"
+      //-   id="parent_id"
+      //-   name="parent_id"
+      //- )
+
+      select(
+        value=""
         name="parent_id"
-      )
+        id="parent_id"
+        class="form-control"
+      ) 
+        option(value="") -- Choose parent category --
+        if(records)
+          +select-tree(records)
   
     div(class="form-group")
-      label(for="desc") Mô tả
+      label(for="desc") Description
       textarea(
         class = "form-control textarea-mce"
         id="desc"
@@ -82,4 +93,4 @@ block main
       button(
           type="submit"
           class="btn btn-primary"
-      )  Tạo mới
+      )  Create

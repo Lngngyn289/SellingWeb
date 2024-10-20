@@ -1,5 +1,6 @@
 const ProductCategory = require('../../model/products-categoryModel')
 const systemConfig = require("../../config/system") 
+const createTreeHelper = require("../../helpers/createTree")
 
 module.exports.index = async (req,res)  => {
   let find = {
@@ -7,15 +8,24 @@ module.exports.index = async (req,res)  => {
   }
 
   const records = await ProductCategory.find(find);
+  const newRecords = createTreeHelper.tree(records)
   res.render("admin/pages/products-category/index", {
     pageTitle: "Products Category",
-    records: records
+    records: newRecords
   })
 }
 
 module.exports.create = async (req,res)  => {
+  let find = {
+    deleted: false
+  }
+
+  const records = await ProductCategory.find(find)
+  const newRecords = createTreeHelper.tree(records)
+
   res.render("admin/pages/products-category/create", {
-    pageTitle: "Create Products Category"
+    pageTitle: "Create Products Category",
+    records: newRecords
   })
 }
 
