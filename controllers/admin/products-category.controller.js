@@ -35,3 +35,33 @@ module.exports.createProduct = async (req,res) => {
   res.redirect(`${systemConfig.prefixAdmin}/products-category`)
   console.log(req.body)
 }
+
+module.exports.edit = async (req,res) => {
+  try{
+    const id = req.params.id;
+    const data = await ProductCategory.findOne({
+      _id: id,
+      deleted: false
+    })
+  
+    const records = await ProductCategory.find({
+      deleted: false
+    })
+    const newRecords = createTreeHelper.tree(records)
+  
+    res.render("admin/pages/products-category/edit", {
+      pageTitle: "Edit Category",
+      data: data,
+      records: newRecords
+    })
+  }
+  catch(error){
+    res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+  }
+}
+
+module.exports.editPatch = async (req,res) => {
+  const id = req.params.id
+  await ProductCategory.updateOne({_id: id}, req.body)
+  res.redirect('back')
+}

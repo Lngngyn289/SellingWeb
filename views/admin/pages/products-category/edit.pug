@@ -1,0 +1,100 @@
+extends ../../layouts/default
+include ../../mixins/alert
+include ../../mixins/select-tree
+
+block main
+  h1(class="mb-4") Create products category
+    +alert-error(3000)
+  form(
+    action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
+    method="POST"
+    enctype="multipart/form-data"
+  )
+    div(class="form-group")
+      label(for="title") Title
+      input(
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        value=data.title
+        required
+      )
+
+    div(class="form-group")
+      label(for="parent_id") Parent Category
+      //- input(
+      //-   type="text"
+      //-   class="form-control"
+      //-   id="parent_id"
+      //-   name="parent_id"
+      //- )
+
+      select(
+        value=""
+        name="parent_id"
+        id="parent_id"
+        class="form-control"
+      ) 
+        option(value="") -- Choose parent category --
+        if(records)
+          +select-tree(records, 1, data.parent_id)
+  
+    div(class="form-group")
+      label(for="desc") Description
+      textarea(
+        class = "form-control textarea-mce"
+        id="desc"
+        name="description"
+        rows="5"
+      ) #{data.description}
+    div(
+      class="form-group" 
+      upload-image
+    )
+      label(for="thumbnail") Image
+      input(
+        type="file"
+        class="form-control-file"
+        id="thumbnail"
+        name="thumbnail"
+        accept="image/*"
+        upload-image-input
+      )
+      img(
+        src=data.thumbnail
+        upload-image-preview
+        class="image-preview"
+      )
+      button(
+        class = "removeImg"
+        remove-image
+      ) x
+
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusActive"
+        name="status"
+        value="Active"
+        checked=(data.status == "Active" ? true : false)
+
+      )
+      label(for="statusActive" class="form-check-label") Active
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusInActive"
+        name="status"
+        value="Inactive"
+        checked=(data.status == "Inactive" ? true : false)
+
+      )
+      label(for="statusInActive" class="form-check-label") Inactive
+    div(class="form-group")
+      button(
+        type="submit"
+        class="btn btn-primary"
+      )  Update

@@ -15,6 +15,15 @@ router.post(
   validate.createProduct,
   controller.createProduct
 )
+router.get('/edit/:id', controller.edit)
+router.patch(
+  '/edit/:id',
+  upload.single("thumbnail"),
+  uploadCloud.upload,
+  validate.createProduct,
+  controller.editPatch
+)
+
 
 
 module.exports = router
