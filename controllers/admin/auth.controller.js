@@ -2,10 +2,17 @@ const Accounts = require('../../model/accountsModel')
 const md5 = require('md5')
 const systemConfig = require('../../config/system')
 
-module.exports.login = (req, res) =>{
-  res.render('admin/pages/auth/login',{
-    pageTitle: "Login"
+module.exports.login = async (req, res) =>{
+  const user = await Accounts.findOne({
+    token: req.cookies.token
   })
+  if(user){
+    res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
+  } else{
+    res.render('admin/pages/auth/login',{
+      pageTitle: "Login"
+    })
+  }
 }
 
 module.exports.loginPost = async (req, res) =>{

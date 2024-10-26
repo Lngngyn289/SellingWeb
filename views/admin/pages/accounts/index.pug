@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug 
 block main
+  if(role.permissions.includes("accounts-view"))
+
   h1(class="mb-4") Danh sách tài khoản 
   .card.mb-3 
     .card-header Danh sách 
@@ -7,10 +9,11 @@ block main
       .row    
         .col-8 
         .col-4.text-right 
-          a(
-            href=`${prefixAdmin}/accounts/create`
-            class="btn btn-outline-success"
-          ) + Thêm mới
+          if(role.permissions.includes("accounts-create"))
+            a(
+              href=`${prefixAdmin}/accounts/create`
+              class="btn btn-outline-success"
+            ) + Thêm mới
 
       table(
         class="table table-hover table-sm"
@@ -40,27 +43,29 @@ block main
               td #{item.role.title}
               td #{item.email}
               td
-                if (item.status === "Active")
+                if (item.status === "active")
                   a(
                     href="javascript:;"
                     class="btn btn-success btn-sm ml-1"
-                    data-status="Active"
+                    data-status="active"
                   ) Active
                 else
                   a(
                     href="javascript:;"
                     class="btn btn-danger btn-sm ml-1"
-                    data-status="Inactive"
+                    data-status="inactive"
                   ) Inactive
               td
                 a(
                   class="btn btn-secondary btn-sm"
                   href=`${prefixAdmin}/accounts/detail/${item.id}`
-                ) Chi tiết
-                a(
-                  class="btn btn-warning btn-sm ml-1"
-                  href=`${prefixAdmin}/accounts/edit/${item.id}`
-                ) Sửa
-                button(
-                  class="btn btn-danger btn-sm ml-1"
-                ) Xóa
+                ) Details 
+                if(role.permissions.includes("accounts-edit"))
+                  a(
+                    class="btn btn-warning btn-sm ml-1"
+                    href=`${prefixAdmin}/accounts/edit/${item.id}`
+                  ) Edit
+                if(role.permissions.includes("accounts-delete"))
+                  button(
+                    class="btn btn-danger btn-sm ml-1"
+                  ) Delete

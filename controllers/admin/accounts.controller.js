@@ -35,6 +35,7 @@ module.exports.create = async (req,res) => {
 }
 
 module.exports.createAccount = async (req,res) => {
+  console.log(req.body)
   const emailExist = await Accounts.findOne({
     email: req.body.email,
     deleted: false
