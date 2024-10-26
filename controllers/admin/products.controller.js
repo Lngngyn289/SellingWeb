@@ -5,6 +5,7 @@ const paginationHelper = require("../../helpers/pagination")
 const systemConfig = require("../../config/system") 
 const createTreeHelper = require("../../helpers/createTree")
 const ProductCategory = require("../../model/products-categoryModel")
+const Accounts = require('../../model/accountsModel')
 
 module.exports.index = async (req,res)  => {
   const filterStatus = filterStatusHelper(req.query)
@@ -45,6 +46,16 @@ module.exports.index = async (req,res)  => {
     .limit(objectPagination.limitItems)
     .skip(objectPagination.skip)
     .sort(sort)
+
+  for(const product of products){
+    const user = await Accounts.findOne({
+      _id: product.createdBy.account_id
+    })
+    if(user){
+      product.accountFullName = user.fullName
+    }
+  }
+  
   res.render("admin/pages/products/index",{
     pageTitle: 'ProductsList',
     products: products,
@@ -103,6 +114,7 @@ module.exports.deleteItem =  async (req,res) => {
 }
 
 module.exports.create = async (req,res) => {
+  console.log(res.locals.user)
   let find = {
     deleted: false
   }
@@ -119,10 +131,15 @@ module.exports.createProduct = async (req,res) => {
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
+  req.body.createdBy ={
+    account_id: res.locals.user.id
+  }
   const product = new Product(req.body)
   await product.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
+
+
 
 module.exports.edit = async (req,res) => {
   try {

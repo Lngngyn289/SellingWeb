@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema({
         slug:"title",
         unique: true
     },
-    createBy: {
+    createdBy: {
         account_id: String,
         createdAt: {
             type: Date,

@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
+include ../../mixins/moment.pug
 
 
 block main
@@ -62,11 +63,12 @@ block main
                   th
                     input(type="checkbox" name="checkall")
                   th STT
-                  th Hình ảnh
-                  th Tiêu đề
-                  th Giá
-                  th Trạng thái
-                  th Hành động
+                  th Image
+                  th Title
+                  th Price
+                  th Status
+                  th Create By
+                  th Action
 
               tbody
                 each item, index in products
@@ -89,7 +91,7 @@ block main
                     td #{item.title}
                     td #{item.price}$ 
                     td
-                    if(role.permissions.includes("products-edit"))
+                      if(role.permissions.includes("products-edit"))
                         if(item.status == "Inactive")
                           a(
                             href="javascript:" 
@@ -106,6 +108,10 @@ block main
                             data-status=item.status
                             data-id=item.id
                           ) #{item.status}
+                    td 
+                      p #{item.accountFullName} 
+                      p 
+                        +formatDateTime(item.createdBy.createdAt) 
                     td
                       a(
                         href=`${prefixAdmin}/products/detail/${item.id}`
