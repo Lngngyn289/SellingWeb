@@ -67,7 +67,8 @@ block main
                   th Title
                   th Price
                   th Status
-                  th Create By
+                  th Created By
+                  th Updated By
                   th Action
 
               tbody
@@ -111,7 +112,13 @@ block main
                     td 
                       p #{item.accountFullName} 
                       p 
-                        +formatDateTime(item.createdBy.createdAt) 
+                        +formatDateTime(item.createdBy.createdAt)
+                    td 
+                      - const updatedBy = item.updatedBy.slice(-1)[0]
+                      if(updatedBy)
+                        p #{updatedBy.accountFullName} 
+                        p 
+                          +formatDateTime(updatedBy.updatedAt)  
                     td
                       a(
                         href=`${prefixAdmin}/products/detail/${item.id}`

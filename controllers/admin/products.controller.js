@@ -51,8 +51,18 @@ module.exports.index = async (req,res)  => {
     const user = await Accounts.findOne({
       _id: product.createdBy.account_id
     })
+
     if(user){
       product.accountFullName = user.fullName
+    }
+
+    const updatedBy = product.updatedBy.slice(-1)[0]
+    if(updatedBy){
+      const userUpdated = await Accounts.findOne({
+        _id: updatedBy.account_id
+      })
+
+      updatedBy.accountFullName = userUpdated.fullName
     }
   }
   
@@ -71,8 +81,14 @@ module.exports.changeStatus =  async (req,res) => {
   const status = req.params.status
   const id = req.params.id
 
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
+
   await Product.updateOne({_id: id},{
-    status: status
+    status: status,
+    $push: {updatedBy: updatedBy}
   })
 
   req.flash("success", "Update status successfully")
@@ -82,19 +98,34 @@ module.exports.changeStatus =  async (req,res) => {
 module.exports.changeMulti = async(req, res) => {
   const type = req.body.type
   const ids = req.body.ids.split(", ")
+  const updatedBy = {
+    account_id: res.locals.user.id,
+    updatedAt: new Date()
+  }
+
   switch(type){
     case "Active":
-      await Product.updateMany({_id: {$in: ids}}, {status: "Active"})
+      await Product.updateMany({_id: {$in: ids}}, {
+        status: "Active",
+        $push: {updatedBy: updatedBy}
+      })
       req.flash("success", `Update status of ${ids.length} products success`)
       break
     case "Inactive":
-      await Product.updateMany({_id: {$in: ids}}, {status: "Inactive"})
+
+      await Product.updateMany({_id: {$in: ids}}, {
+        status: "Inactive",
+      })
       req.flash("success", `Update status of ${ids.length} products success`)
       break
     case "Delete":
       await Product.updateMany({_id: ids}, {
         deleted: true,
-        deletedAt: new Date()
+        // deletedAt: new Date()
+        deletedBy: {
+          account_id: res.locals.user.id,
+          deletedAt: new Date()
+        }
       })
       req.flash("success", `Delete ${ids.length} products`)
     default:
@@ -108,7 +139,11 @@ module.exports.deleteItem =  async (req,res) => {
   // await Product.deleteOne({_id: id})
   await Product.updateOne({_id: id}, {
     deleted: true,
-    deletedAt: new Date()
+    // deletedAt: new Date()
+    deletedBy: {
+      account_id: res.locals.user.id,
+      deletedAt: new Date()
+    }
   })
   res.redirect('back')
 }
@@ -128,6 +163,7 @@ module.exports.create = async (req,res) => {
 }
 
 module.exports.createProduct = async (req,res) => {
+  console.log(req.body)
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
@@ -135,7 +171,7 @@ module.exports.createProduct = async (req,res) => {
     account_id: res.locals.user.id
   }
   const product = new Product(req.body)
-  await product.save();
+  // await product.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
 
@@ -171,7 +207,15 @@ module.exports.editPatch = async (req,res) => {
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
   try{
-    await Product.updateOne({_id: req.params.id}, req.body)
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+
+    await Product.updateOne({_id: req.params.id}, {
+      ...req.body,
+      $push: {updatedBy: updatedBy}
+    })
     req.flash("success", "Update success")
   }catch(error){
     req.flash("error", "Update fail")

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const uploadCloud = require('../../middlewares/admin/uploadCloudMiddleware')
-
+const test = require('../../middlewares/admin/test')
 // const storageMulter = require('../../helpers/storageMulter')
 // const storage = multer.diskStorage({
 //   destination: function (req, file, cb) {
