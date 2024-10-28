@@ -1,3 +1,5 @@
+include ../mixins/sub-menu.pug
+
 header.header 
   .container 
     .row.align-item-center
@@ -9,6 +11,9 @@ header.header
         .inner-menu
           ul 
             li 
-              a(href="") Home
-            li 
-              a(href="/products") Products
+              a(href="/") Home
+            li(class ="sub-menu")
+              -const pathProduct = "/products"
+              a(href=pathProduct) Products
+                +sub-menu(layoutProductsCategory, pathProduct)
+              

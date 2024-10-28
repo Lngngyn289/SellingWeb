@@ -41,23 +41,25 @@ block main
       //-     class="form-control"
       //-   )
             
-      //- div(class="form-group form-check form-check-inline")
-      //-   input(
-      //-     type="radio"
-      //-     class="form-check-input"
-      //-     id="featured1"
-      //-     name="featured"
-      //-     value="1"
-      //-   )
-      //- div(class="form-group form-check form-check-inline")
-      //-   input(
-      //-     type="radio"
-      //-     class="form-check-input"
-      //-     id="featured"
-      //-     name="featured"
-      //-     value="0"
-      //-     checked
-      //-   )
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured1"
+          name="featured"
+          value="1"
+        )
+        label(for="featured1" class="form-check-label") Special Product
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured"
+          name="featured"
+          value="0"
+          checked
+        )
+        label(for="featured1" class="form-check-label") None
       div(class="form-group")
         label(for="desc") Description
         textarea(

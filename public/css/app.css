@@ -50,7 +50,8 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
-  position: relative
+  position: relative;
+  height: 100%
 }
 
 .product-item .inner-image {
