@@ -4,8 +4,7 @@ header.header
     .row.align-items-center
       .col-3 
         .inner-logo
-          a(href="/")
-            img(src="/img/logo.svg". alt="logo")
+          
 
       .col-5  
         form(
@@ -30,18 +29,8 @@ header.header
             li 
               a(href="/") Home
             li(class="sub-menu")
-              -const pathProduct ="/products";
-              a(href="/products") Products
+              - const pathProduct ="/products";
+              a(href=pathProduct) Products
                 +sub-menu(layoutProductsCategory, pathProduct)
             li 
               a(href="/cart") Cart (#{miniCart ? miniCart.totalQuantity : 0})
-            if(user)
-              li 
-                a(href="/user/info") #{user.fullName}
-              li
-                a(href="/user/logout") Đăng xuất
-            else
-              li 
-                a(href="/user/login") Đăng nhập
-              li 
-                a(href="/user/register") Đăng ký

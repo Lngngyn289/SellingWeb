@@ -6,7 +6,6 @@ block main
 
   .container.my-3 
     .row 
-      .col-12 
-        +box-head("Products List")
-    
+      .col-12
+        +box-head(pageTitle)
     +product-grid(products)

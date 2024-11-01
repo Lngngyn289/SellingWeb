@@ -13,6 +13,7 @@ module.exports.index = async (req, res) => {
     product.priceNew = (product.price*(100-product.discountPercentage)/100).toFixed(0)
   });
 
+
   res.render('client/pages/products/index',{
     pageTitle: "Product List",
     products: products
@@ -53,13 +54,14 @@ module.exports.detail = async (req, res) => {
 
 //get /product/slugCategory
 module.exports.category = async (req,res) => {
+
   const category = await ProductCategory.findOne({
     slug: req.params.slugCategory,
-    deleted: false
+    deleted: false,
+    status: "Active"
   })
 
-
-
+  // console.log(category)
   const listSubCategory = await productsCategoryHelper.getSubCategory(category.id)
   const listSubCategoryId = listSubCategory.map(item => item.id)
 
@@ -68,11 +70,11 @@ module.exports.category = async (req,res) => {
     deleted: false
   })
 
+
   const newProducts = productsHelper.priceNewProducts(products)
   
   res.render("client/pages/products/index",{
     pageTitle: category.title,
     products: newProducts
   })
-  
 }

@@ -2,6 +2,7 @@ const Product = require('../../model/productsModel')
 const productsHelper = require('../../helpers/product')
 
 module.exports.index = async (req, res) => {
+
   const keyword = req.query.keyword
   let newProducts = []
   if(keyword){
