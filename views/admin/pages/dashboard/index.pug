@@ -2,7 +2,55 @@ extends ../../layouts/default.pug
 
 block main 
   h1 Dashboard
+  .row.mt-4
+    .col-12
+      .card.mb-4
+        .card-header Account Information
+        .card-body
+          if(user.avatar)
+            img(
+              src=user.avatar
+              style="height: 100px;margin-bottom: 15px;"
+            )
+          if(user.fullName)
+            p Họ tên: <b>#{user.fullName}</b>
+          if(user.email)
+            p Email: <b>#{user.email}</b>
+          if(user.phone)
+            p Số điện thoại: <b>#{user.phone}</b>
+          if(role.title)
+            p Phân quyền: <b>#{role.title}</b>
 
-  div #{user}
-  div *****************
-  div #{role}
+  .row
+    .col-6
+      .card.mb-4
+        .card-header Products Category
+        .card-body
+          p Total: <b>#{statistic.categoryProduct.total}</b>
+          p Active: <b>#{statistic.categoryProduct.active}</b>
+          p Inactive: <b>#{statistic.categoryProduct.inactive}</b>
+
+    .col-6
+      .card.mb-4
+        .card-header Products
+        .card-body
+          p Total: <b>#{statistic.products.total}</b>
+          p Active: <b>#{statistic.products.active}</b>
+          p Inactive: <b>#{statistic.products.inactive}</b>
+
+    .col-6
+      .card.mb-4
+        .card-header Admin Accounts
+        .card-body
+          p Total: <b>#{statistic.account.total}</b>
+          p Active: <b>#{statistic.account.active}</b>
+          p Inactive: <b>#{statistic.account.inactive}</b>
+
+
+    .col-6
+      .card.mb-4
+        .card-header Client Accounts
+        .card-body
+          p Total: <b>#{statistic.user.total}</b>
+          p Active: <b>#{statistic.user.active}</b>
+          p Inactive: <b>#{statistic.user.inactive}</b>

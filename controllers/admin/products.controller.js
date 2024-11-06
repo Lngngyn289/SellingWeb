@@ -149,7 +149,6 @@ module.exports.deleteItem =  async (req,res) => {
 }
 
 module.exports.create = async (req,res) => {
-  console.log(res.locals.user)
   let find = {
     deleted: false
   }
@@ -163,7 +162,6 @@ module.exports.create = async (req,res) => {
 }
 
 module.exports.createProduct = async (req,res) => {
-  console.log(req.body)
   req.body.price = parseInt(req.body.price)
   req.body.stock = parseInt(req.body.stock)
   req.body.discountPercentage= parseInt(req.body.discountPercentage)
@@ -171,7 +169,7 @@ module.exports.createProduct = async (req,res) => {
     account_id: res.locals.user.id
   }
   const product = new Product(req.body)
-  // await product.save();
+  await product.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
 
