@@ -79,7 +79,7 @@ module.exports.success = async (req, res) => {
     product.productInfo = productInfo
     product.priceNew = productsHelper.priceNewProduct(product);
     product.totalPrice = product.priceNew * product.quantity;
-    console.log(productInfo.title);
+
   }
   order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0);
 

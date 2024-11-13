@@ -33,8 +33,6 @@ module.exports.addPost = async (req,res, next) => {
   const productId = req.params.productId
   const quantity = parseInt(req.body.quantity)
   const cartId = req.cookies.cartId
-  console.log(productId)
-  console.log(quantity)
 
   const objectCart = {
     product_id: productId,
@@ -46,7 +44,7 @@ module.exports.addPost = async (req,res, next) => {
   })
 
   const existProductInCart = currentCart.products.find(
-    item => item.product_id = productId
+    item => item.product_id == productId
   )
   if(existProductInCart){
     const quantityNew = quantity + existProductInCart.quantity
@@ -64,6 +62,7 @@ module.exports.addPost = async (req,res, next) => {
     }, {
       $push: {products: objectCart}
     })
+    
   }
   req.flash('success', 'Add product to cart successfully')
   res.redirect("back")
