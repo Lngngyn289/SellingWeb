@@ -44,7 +44,6 @@ module.exports.order = async (req, res) => {
       discountPercentage: 0,
       quantity: product.quantity
     }
-
     const productInfo = await Product.findOne({
       _id: product.product_id
     }).select("price discountPercentage")

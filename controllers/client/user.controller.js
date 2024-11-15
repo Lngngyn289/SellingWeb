@@ -55,18 +55,19 @@ module.exports.loginPost = async (req, res) => {
     res.redirect("back");
     return;
   }
+
   const cart = await Cart.findOne({
     user_id: user.id
   });
-  // if(cart) {
-  //   res.cookie("cartId",cart.id)
-  // } else {
-  //   await Cart.updateOne({
-  //   _id: req.cookies.cartId
-  //   },{
-  //     user_id: user.id
-  //   })
-  // }
+  if(cart) {
+    res.cookie("cartId",cart.id)
+  } else {
+    await Cart.updateOne({
+    _id: req.cookies.cartId
+    },{
+      user_id: user.id
+    })
+  }
  
   res.cookie("tokenUser", user.tokenUser);
   res.redirect("/");
@@ -177,6 +178,7 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 //GET /user/info
 module.exports.info = async (req,res) =>{
+
   res.render("client/pages/user/info", {
     pageTilte: "Account Information",
   })

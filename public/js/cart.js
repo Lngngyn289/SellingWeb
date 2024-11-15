@@ -4,8 +4,8 @@ if(inputsQuantity.length > 0){
     input.addEventListener("change", (e) => {
       const productId = input.getAttribute("item-id");
       const quantity = e.target.value;
-      console.log(productId)
-      console.log(quantity)
+      // console.log(productId)
+      // console.log(quantity)
       window.location.href=`/cart/update/${productId}/${quantity}`;
     })
   })

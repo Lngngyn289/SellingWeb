@@ -14,6 +14,9 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const moment = require('moment')
 
+const { createServer } = require('node:http');
+const { Server } = require('socket.io');
+
 const path = require('path')
 
 db.connect();
@@ -23,6 +26,12 @@ app.set('views', './views')
 app.set('view engine', 'pug')
 app.use(express.static(`${__dirname}/public`)) 
 
+
+//SocketIO
+const server = createServer(app);
+const io = new Server(server);
+global._io = io
+//End Socket
 
 //flash
 app.use(cookieParser('lngngyn'));
@@ -45,6 +54,6 @@ router(app)
 routerAdmin(app)
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
