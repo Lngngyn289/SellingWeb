@@ -43,13 +43,27 @@ if(bodyChat){
 }
 //END scroll chat
 
-//Emoji Picker
-const buttonIcon = document.querySelector('button-icon')
+//Emoji Picker POPUP
+const buttonIcon = document.querySelector('.button-icon')
 if(buttonIcon){
   const tooltip = document.querySelector('.tooltip')
-  Popper.createPopper(buttonIcon,tooltip)
+  Popper.createPopper(buttonIcon, tooltip)
   buttonIcon.onclick = () => {
+    console.log("Clicked")
     tooltip.classList.toggle("shown")
   }
 }
-//END emoji Picker
+//END emoji Picker POPUP
+
+//Insert icon into input
+const emojiPicker = document.querySelector('emoji-picker')
+if(emojiPicker){
+  const inputChat = document.querySelector(".chat .inner-form input[name='content']")
+  emojiPicker.addEventListener('emoji-click', (e) => {
+    const icon = e.detail.unicode
+    inputChat.value = inputChat.value + icon;
+    const end = inputChat.value.length
+    inputChat.setSelectionRange(end, end)
+    inputChat.focus()
+  });
+}
