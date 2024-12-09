@@ -11,7 +11,7 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
-const session = require('express-session')
+const session = require('cookie-session')
 const moment = require('moment')
 
 const { createServer } = require('node:http');
