@@ -35,7 +35,11 @@ global._io = io
 
 //flash
 app.use(cookieParser('lngngyn'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+  cookie: { maxAge: 60000 }, 
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(flash());
 //end flash
 
