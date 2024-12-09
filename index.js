@@ -11,7 +11,7 @@ const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
-const session = require('cookie-session')
+const session = require('express-session')
 const moment = require('moment')
 
 const { createServer } = require('node:http');
@@ -37,8 +37,6 @@ global._io = io
 app.use(cookieParser('lngngyn'));
 app.use(session({
   cookie: { maxAge: 60000 }, 
-  resave: true,
-  saveUninitialized: true
 }));
 app.use(flash());
 //end flash
