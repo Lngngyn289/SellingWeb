@@ -36,7 +36,10 @@ global._io = io
 //flash
 app.use(cookieParser('lngngyn'));
 app.use(session({
-  cookie: { maxAge: 60000 }, 
+  secret: 'your-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }  // Chú ý nếu sử dụng HTTPS, cookie phải set secure: true
 }));
 app.use(flash());
 //end flash
