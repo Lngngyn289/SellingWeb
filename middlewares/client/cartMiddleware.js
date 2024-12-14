@@ -7,8 +7,10 @@ module.exports.cartId = async (req, res, next) => {
     await cart.save()
     const expiresCookie = 365*24*60*60*1000
     res.cookie("cartId", cart.id, {
-      expires: new Date(Date.now() + expiresCookie)
-    })
+      expires: new Date(Date.now() + expiresCookie),
+      secure: process.env.NODE_ENV === 'production', // Chỉ bật secure khi ở production
+      httpOnly: true, // Đảm bảo cookie không thể truy cập qua JavaScript
+    });
     console.log(cart)
   } else{
     const cart = await Cart.findOne({
